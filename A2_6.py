@@ -83,4 +83,7 @@ AIg = VPg*RHOg
 VPVSg = np.divide(VPg,VSg)
 plt.figure()
 plt.plot(AIb,VPVSb,'b*', AIo, VPVSo, 'g*', AIg, VPVSg, 'r*')
+plt.title("Rock properties for varying porosity")
+plt.xlabel("Acoustic Impedance") 
+plt.ylabel("VP/VS ratio")
 plt.show()
