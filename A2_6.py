@@ -7,10 +7,8 @@
 
 #Needed libraries
 import matplotlib.pyplot as plt
-import math
 import numpy as np
 import gassmann as gm
-from tabulate import tabulate
 
 #Define GigaPascal
 GPa = 1e9
@@ -54,14 +52,35 @@ POR = np.linspace(0.1, 0.35, 100)
 por_c = 0.4
 K_dry = K0*(1-POR/por_c)
 G_dry = G0*(1-POR/por_c)
-K = gm.gassmann(K0,K_dry,K_b,POR) # Brine saturated bulk mod.
-G = G_dry
-M = K + 4/3*G
-RHO = POR*rho_b + (1-POR)*rho_0
-VP = np.sqrt(np.divide(M,RHO))
-VS = np.sqrt(np.divide(G,RHO))
-AI = VP*RHO
-VPVS = np.divide(VP,VS)
+# Brine saturated
+Kb = gm.gassmann(K0,K_dry,K_b,POR) 
+Gb = G_dry
+Mb = Kb + 4/3*Gb
+RHOb = POR*rho_b + (1-POR)*rho_0
+VPb = np.sqrt(np.divide(Mb,RHOb))
+VSb = np.sqrt(np.divide(Gb,RHOb))
+AIb = VPb*RHOb
+VPVSb = np.divide(VPb,VSb)
+
+# Oil saturated
+Ko = gm.gassmann(K0,K_dry,K_o,POR) 
+Go = G_dry
+Mo = Ko + 4/3*Go
+RHOo = POR*rho_o + (1-POR)*rho_0
+VPo = np.sqrt(np.divide(Mo,RHOo))
+VSo = np.sqrt(np.divide(Go,RHOo))
+AIo = VPo*RHOo
+VPVSo = np.divide(VPo,VSo)
+
+# Gas saturated
+Kg = gm.gassmann(K0,K_dry,K_g,POR) 
+Gg = G_dry
+Mg = Kg + 4/3*Gg
+RHOg = POR*rho_g + (1-POR)*rho_0
+VPg = np.sqrt(np.divide(Mg,RHOg))
+VSg = np.sqrt(np.divide(Gg,RHOg))
+AIg = VPg*RHOg
+VPVSg = np.divide(VPg,VSg)
 plt.figure()
-plt.plot(AI,VPVS,'b*')
+plt.plot(AIb,VPVSb,'b*', AIo, VPVSo, 'g*', AIg, VPVSg, 'r*')
 plt.show()
