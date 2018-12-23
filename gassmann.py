@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def gassmann(K_0, K_dry, K_fl, por):
     """Calculation of Gassmann equation.
     
@@ -15,12 +16,8 @@ def gassmann(K_0, K_dry, K_fl, por):
     a = (1- np.divide(K_dry, K_0))**2
     b = np.divide(por,K_fl) + np.divide(1-por,K_0) - np.divide(K_dry,K_0**2)
 
-    if np.any(b==0):
-        K_sat = K_dry
-    else:
-        K_sat = K_dry + np.divide(a,b)
-        
-    return K_sat
+    return K_dry + np.divide(a, b, where=(b != 0))
+
 
 def gassmanninv(K_0,K_sat,K_fl,por):
     """ Calculation of inverse Gassmann equation.
