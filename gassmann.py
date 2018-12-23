@@ -14,7 +14,8 @@ def gassmann(K_0, K_dry, K_fl, por):
     """
     a = (1- np.divide(K_dry, K_0))**2
     b = np.divide(por,K_fl) + np.divide(1-por,K_0) - np.divide(K_dry,K_0**2)
-    if b==0:
+
+    if np.any(b==0):
         K_sat = K_dry
     else:
         K_sat = K_dry + np.divide(a,b)
