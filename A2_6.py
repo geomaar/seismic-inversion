@@ -5,12 +5,29 @@
     Assignment 2 Problem 6
 """
 
-#Needed libraries
+# Needed libraries
 import matplotlib.pyplot as plt
 import numpy as np
 import gassmann as gm
 
-#Define GigaPascal
+
+def saturation_fluids(K0, K_dry, K_fluid, porosity, G_dry, rho_fluid, rho_0):
+    """
+    Add info here
+    """
+
+    K = gm.gassmann(K0, K_dry, K_fluid, porosity)
+    G = G_dry
+    M = K + 4/3*G
+    RHO = porosity*rho_fluid + (1-porosity)*rho_0
+    VP = np.sqrt(np.divide(M, RHO))
+    VS = np.sqrt(np.divide(G, RHO))
+    AI = VP*RHO
+    VPVS = np.divide(VP, VS)
+    return AI, VPVS
+
+
+# Define GigaPascal
 GPa = 1e9
 
 # Quartz:
@@ -39,10 +56,10 @@ K_g = 0.1*GPa
 G_g = 0
 
 C = 0.2     # Relative fraction clay
-KR = ( C/K_c + (1-C)/K_q )**-1  # Reuss
+KR = (C/K_c + (1-C)/K_q)**-1  # Reuss
 KV = C*K_c + (1-C)*K_q          # Voigt
 K0 = 0.5*(KR+KV)                # Hill
-GR = ( C/G_c + (1-C)/G_q )**-1  # Reuss
+GR = (C/G_c + (1-C)/G_q)**-1  # Reuss
 GV = C*G_c + (1-C)*G_q          # Voigt
 G0 = 0.5*(GR+GV)                # Hill
 
@@ -52,38 +69,21 @@ POR = np.linspace(0.1, 0.35, 100)
 por_c = 0.4
 K_dry = K0*(1-POR/por_c)
 G_dry = G0*(1-POR/por_c)
+
+
 # Brine saturated
-Kb = gm.gassmann(K0,K_dry,K_b,POR) 
-Gb = G_dry
-Mb = Kb + 4/3*Gb
-RHOb = POR*rho_b + (1-POR)*rho_0
-VPb = np.sqrt(np.divide(Mb,RHOb))
-VSb = np.sqrt(np.divide(Gb,RHOb))
-AIb = VPb*RHOb
-VPVSb = np.divide(VPb,VSb)
+AIb,VPVSb = saturation_fluids(K0, K_dry, K_b, POR, G_dry, rho_b, rho_0)
 
 # Oil saturated
-Ko = gm.gassmann(K0,K_dry,K_o,POR) 
-Go = G_dry
-Mo = Ko + 4/3*Go
-RHOo = POR*rho_o + (1-POR)*rho_0
-VPo = np.sqrt(np.divide(Mo,RHOo))
-VSo = np.sqrt(np.divide(Go,RHOo))
-AIo = VPo*RHOo
-VPVSo = np.divide(VPo,VSo)
+AIo,VPVSo = saturation_fluids(K0, K_dry, K_o, POR, G_dry, rho_o, rho_0)
 
 # Gas saturated
-Kg = gm.gassmann(K0,K_dry,K_g,POR) 
-Gg = G_dry
-Mg = Kg + 4/3*Gg
-RHOg = POR*rho_g + (1-POR)*rho_0
-VPg = np.sqrt(np.divide(Mg,RHOg))
-VSg = np.sqrt(np.divide(Gg,RHOg))
-AIg = VPg*RHOg
-VPVSg = np.divide(VPg,VSg)
+AIg,VPVSg = saturation_fluids(K0, K_dry, K_g, POR, G_dry, rho_g, rho_0)
+
+# Plot for rock properties for varying porosity with different fluids
 plt.figure()
-plt.plot(AIb,VPVSb,'b*', AIo, VPVSo, 'g*', AIg, VPVSg, 'r*')
+plt.plot(AIb, VPVSb, 'b*', AIo, VPVSo, 'g*', AIg, VPVSg, 'r*')
 plt.title("Rock properties for varying porosity")
-plt.xlabel("Acoustic Impedance") 
+plt.xlabel("Acoustic Impedance")
 plt.ylabel("VP/VS ratio")
 plt.show()
