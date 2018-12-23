@@ -2,7 +2,7 @@
     Maria Antonieta Alcantara Rodriguez
     Fall 2018
     GEO 670
-    Assignment 1 - Problem 4
+    Assignment 1 - Problem 4 animation
 """
 
 # Initial data
@@ -49,7 +49,7 @@ ani = animation.FuncAnimation(
     interval=25,
     blit=True)
 
-plt.title('title!!!')
-plt.xlabel('distance (m)')
-plt.ylabel('amplitude')
+plt.title('Wave at t=0')
+plt.xlabel('Distance (m)')
+plt.ylabel('Amplitude')
 plt.show()
