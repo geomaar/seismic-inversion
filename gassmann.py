@@ -5,10 +5,10 @@ def gassmann(K_0, K_dry, K_fl, por):
     """Calculation of Gassmann equation.
     
     Args:
-        K_0: Mineral bulk modulus (scalar)
-        K_dry: Dry rock frame (skeleton) bulk modulus (vector)
-        K_fl: Fluid bulk modulus (scalar)
-        por: Porosity (vector)
+        K_0: Mineral bulk modulus 
+        K_dry: Dry rock frame (skeleton) bulk modulus 
+        K_fl: Fluid bulk modulus 
+        por: Porosity 
 
     Returns: 
         K_sat: Saturated rock bulk modulus.
@@ -23,13 +23,13 @@ def gassmanninv(K_0,K_sat,K_fl,por):
     """ Calculation of inverse Gassmann equation.
     
     Args:
-        K_0: Mineral bulk modulus (scalar)
-        K_sat: Saturated rock bulk modulus (vector)
-        K_fl: Fluid bulk modulus (scalar)
-        por: Porosity (vector)
+        K_0: Mineral bulk modulus 
+        K_sat: Saturated rock bulk modulus 
+        K_fl: Fluid bulk modulus
+        por: Porosity 
     
     Returns:
-        K_dry: Dry rock frame (skeleton) bulk modulus (vector)
+        K_dry: Dry rock frame (skeleton) bulk modulus 
     """
 
     a = ( por*K_0)/ K_fl  + 1 - por
