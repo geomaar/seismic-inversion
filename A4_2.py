@@ -7,6 +7,7 @@
 import matplotlib.pyplot as plt
 import math
 import numpy as np
+from tabulate import tabulate
 
 
 data = np.loadtxt('Data/velocity_profile.txt')
@@ -32,4 +33,18 @@ plt.ylim(2.3, 1.5)
 plt.xlabel("Offset(m)")
 plt.ylabel("Time (s)")
 plt.show()
+
+# RMS velocities
+DeltaT = 2*thickness / vel
+V2cum = np.cumsum(vel**2 * DeltaT)
+Tcum = np.cumsum(DeltaT)
+V2rms = V2cum / Tcum
+Vrms = np.sqrt(V2rms)
+print(tabulate(zip(Tcum, Vrms), headers=["Time", "Vrms"],  tablefmt='orgtbl'))
+print()
+# Interval velocities using DIX formula
+Vint = [Vrms[0]]
+for k,v in enumerate(Vrms[1:]):
+    Vint.append(np.sqrt((V2rms[k+1]*Tcum[k+1] - V2rms[k]*Tcum[k]) / DeltaT[k+1]))
+print(tabulate(zip(DeltaT, Vint), headers=["Time", "Vint"],  tablefmt='orgtbl'))
 
